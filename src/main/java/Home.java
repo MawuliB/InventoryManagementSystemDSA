@@ -1211,7 +1211,7 @@ public class Home extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1846,8 +1846,7 @@ addVendor();
             st.setString(1, n);
             ResultSet result = st.executeQuery();
             
-            while(result.next()){
-                
+            if(result.next()){         
                 name = result.getString("VendorCode");
             }
             
@@ -1872,14 +1871,14 @@ addVendor();
   
             while(result.next()){
                 VendorCode = fetchVendorID(result.getString("Vendor"));
-                Name = result.getString("Name");
-                Bill = result.getString("Gross");
+                Name = result.getString("Vendor");
+                Bill = Integer.toString(result.getInt("Gross"));
                 
                 Object[] row = {VendorCode, Name, Bill};
                 model.addRow(row);
             }
             
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException | SQLException | IllegalArgumentException ex) {
             Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

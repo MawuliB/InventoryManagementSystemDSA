@@ -1871,7 +1871,7 @@
                           <Table columnCount="3" rowCount="4">
                             <Column editable="true" title="Vendor Code" type="java.lang.String"/>
                             <Column editable="true" title="Vendor Name" type="java.lang.String"/>
-                            <Column editable="true" title="Bill" type="java.lang.Float"/>
+                            <Column editable="true" title="Bill" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
