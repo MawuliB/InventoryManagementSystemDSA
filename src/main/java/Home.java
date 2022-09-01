@@ -12,6 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
+import java.util.Vector;
 
 
 
@@ -33,9 +41,10 @@ public class Home extends javax.swing.JFrame {
         initComponents();
         jPanel9.setVisible(false);
         jPanel17.setVisible(false);
-        choice4.addItem("Stacks");
-        choice4.addItem("Lists");
-        choice4.addItem("Queue");
+        category.addItem("Stacks");
+        category.addItem("Lists");
+        category.addItem("Queue");
+//        jPanel10.setVisible(false);
     }
 
     /**
@@ -87,13 +96,17 @@ public class Home extends javax.swing.JFrame {
         derr = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jTextField8 = new javax.swing.JTextField();
+        prodname = new javax.swing.JTextField();
         jPanel11 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jButton12 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        choice4 = new java.awt.Choice();
+        category = new java.awt.Choice();
+        jLabel17 = new javax.swing.JLabel();
+        prodnames = new java.awt.Choice();
+        jLabel19 = new javax.swing.JLabel();
+        qtyedit = new javax.swing.JTextField();
         jPanel10 = new javax.swing.JPanel();
         jButton8 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
@@ -251,6 +264,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setIcon(new javax.swing.ImageIcon("C:\\Users\\BADASSOU MAWULI\\Desktop\\Java\\Project308\\src\\main\\java\\icons\\icons8-dashboard-layout-50.png")); // NOI18N
         jButton7.setBorder(null);
         jButton7.setBorderPainted(false);
         jButton7.setContentAreaFilled(false);
@@ -307,7 +321,6 @@ public class Home extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\BADASSOU MAWULI\\Desktop\\Java\\Project308\\src\\main\\java\\icons\\icons8-dashboard-layout-50.png")); // NOI18N
         jLabel1.setText("KOFI'S SHOP");
         jLabel1.setOpaque(true);
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(224, 0, 1080, 61));
@@ -622,11 +635,11 @@ public class Home extends javax.swing.JFrame {
         jLabel11.setForeground(new java.awt.Color(13, 32, 67));
         jLabel11.setText("Product Name");
 
-        jTextField8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTextField8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(13, 32, 67)));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
+        prodname.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        prodname.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(13, 32, 67)));
+        prodname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
+                prodnameActionPerformed(evt);
             }
         });
 
@@ -641,6 +654,11 @@ public class Home extends javax.swing.JFrame {
         jButton9.setBorderPainted(false);
         jButton9.setContentAreaFilled(false);
         jButton9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -669,6 +687,11 @@ public class Home extends javax.swing.JFrame {
         jButton12.setBorderPainted(false);
         jButton12.setContentAreaFilled(false);
         jButton12.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -688,7 +711,29 @@ public class Home extends javax.swing.JFrame {
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(13, 32, 67));
-        jLabel4.setText("Select Data Structure");
+        jLabel4.setText("Category");
+
+        category.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                categoryItemStateChanged(evt);
+            }
+        });
+
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel17.setForeground(new java.awt.Color(13, 32, 67));
+        jLabel17.setText("Product");
+
+        jLabel19.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        jLabel19.setForeground(new java.awt.Color(13, 32, 67));
+        jLabel19.setText("Quantity");
+
+        qtyedit.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        qtyedit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(13, 32, 67)));
+        qtyedit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                qtyeditActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -697,34 +742,60 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(choice4, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel9Layout.createSequentialGroup()
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(23, Short.MAX_VALUE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(prodname, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(41, 41, 41)
+                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(qtyedit, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel9Layout.createSequentialGroup()
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(prodnames, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 96, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(choice4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel17)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(prodnames, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(19, 19, 19))
+                        .addComponent(prodname, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createSequentialGroup()
+                        .addComponent(jLabel19)
+                        .addGap(4, 4, 4)
+                        .addComponent(qtyedit, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jPanel10.setBackground(new java.awt.Color(0, 51, 51));
@@ -769,8 +840,8 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -784,8 +855,7 @@ public class Home extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab1", jPanel1);
@@ -1259,8 +1329,15 @@ public class Home extends javax.swing.JFrame {
                 .addComponent(jButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jTextField12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jTextField12.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jTextField12.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField12.setText("S e a r c h");
         jTextField12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(8, 20, 41), 2));
+        jTextField12.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jTextField12FocusGained(evt);
+            }
+        });
         jTextField12.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField12ActionPerformed(evt);
@@ -1552,12 +1629,12 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_quantityActionPerformed
 
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
+    private void prodnameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prodnameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
+    }//GEN-LAST:event_prodnameActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
+       fetchCat();
         if(jButton8.getText() == "Data Operations"){
             jPanel9.setVisible(true);
             jButton8.setText("Cancel");
@@ -1834,8 +1911,244 @@ addVendor();
        fetchGoodsByBill();
     }//GEN-LAST:event_billComponentShown
 
+    private void jTextField12FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField12FocusGained
+        
+    }//GEN-LAST:event_jTextField12FocusGained
+
+    private void qtyeditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtyeditActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_qtyeditActionPerformed
+
+    private void categoryItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_categoryItemStateChanged
+        fetchSpecificProdByCat1(category.getSelectedItem());
+    }//GEN-LAST:event_categoryItemStateChanged
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        DSADelete();
+    }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        DSAAdd();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
 //    //functions
    
+        Stack<Object> productStack = new Stack<Object>();
+	Queue<Object> productQueue = new ArrayDeque<Object>();
+	List<Object> productList = new ArrayList<Object>(); 
+	ArrayList<String> stackList  = new ArrayList<String>(Arrays.asList("Beverages", "Bread/Bakery", "Canned/Jarred Goods", "Diary"));
+	ArrayList<String> queueList  = new ArrayList<String>(Arrays.asList("Dry/Baking Goods", "Frozen Foods", "Meat"));
+	ArrayList<String> list  = new ArrayList<String>(Arrays.asList("Produce", "Cleaners", "Paper Goods", "Personal Care"));
+    
+        @SuppressWarnings("unchecked")
+	public static void addStackToDb(Stack<Object> stack) {
+		while(stack.isEmpty() == false) {
+			try {
+				Object productObject = stack.pop();
+				String name = ((HashMap<String,String>) productObject).get("name");
+				String quantity = ((HashMap<String,String>) productObject).get("quantity");
+				String category = ((HashMap<String,String>) productObject).get("category");
+                                Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "INSERT INTO product(Name, Quantity, Category) VALUES(?, ?, ?)";
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+				ps.setInt(2, Integer.valueOf(quantity));
+				ps.setString(3, category);
+				
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void addQueueToDb(Queue<Object> queue) {
+		while(queue.isEmpty() == false) {
+			try {
+				Object productObject = queue.poll();
+				String name = ((HashMap<String,String>) productObject).get("name");
+				String quantity = ((HashMap<String,String>) productObject).get("quantity");
+
+				String category = ((HashMap<String,String>) productObject).get("category");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "INSERT INTO product(Name, Quantity, Category) VALUES(?, ?, ?)";
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+				ps.setInt(2, Integer.valueOf(quantity));
+				ps.setString(3, category);
+				
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void addListToDb(List<Object> list) {
+		for (int i = 0; i < list.size(); i++) {
+			try {
+				Object productObject = list.get(i);
+				String name = ((HashMap<String,String>) productObject).get("name");
+				String quantity = ((HashMap<String,String>) productObject).get("quantity");
+	
+				String category = ((HashMap<String,String>) productObject).get("category");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "INSERT INTO product(Name, Quantity, Category) VALUES(?, ?, ?)";
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+				ps.setInt(2, Integer.valueOf(quantity));
+				ps.setString(3, category);
+				
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+        
+        @SuppressWarnings("unchecked")
+	public static void deleteStackToDb(Stack<Object> stack) {
+		while(stack.isEmpty() == false) {
+			try {
+				Object productObject = stack.pop();
+				String name = ((HashMap<String,String>) productObject).get("name");
+                                Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "delete from product where Name=?";
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+				
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public static void deleteQueueToDb(Queue<Object> queue) {
+		while(queue.isEmpty() == false) {
+			try {
+				Object productObject = queue.poll();
+				String name = ((HashMap<String,String>) productObject).get("name");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "delete from product where Name=?";
+                                PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static void deleteListToDb(List<Object> list) {
+		for (int i = 0; i < list.size(); i++) {
+			try {
+				Object productObject = list.get(i);
+				String name = ((HashMap<String,String>) productObject).get("name");
+				Class.forName("com.mysql.cj.jdbc.Driver");
+                                Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+				String query = "delete from product where Name=?";
+				PreparedStatement ps = con.prepareStatement(query);
+				ps.setString(1, name);
+				
+				ps.execute();
+				ps.close();
+			} catch(Exception ex){
+				JOptionPane.showMessageDialog(null, ex);
+			}
+		}
+	}
+        
+        //Add products
+        void DSAAdd(){
+        try {
+					// HashMap initialization
+					// This will be us used to store added products and ready to be pushed to
+					// the database
+					HashMap<String, String> products = new HashMap<String, String>();
+					products.put("name", prodname.getText());
+					products.put("quantity", qtyedit.getText());
+					products.put("category", category.getSelectedItem().toString());
+					
+					if(stackList.contains(category.getSelectedItem().toString())) {
+						// Here we populate our stack
+						productStack.push(products);
+                                                addStackToDb(productStack);
+				
+						JOptionPane.showMessageDialog(null, "Product added successfully using Stack implementation");
+						
+					} else if(queueList.contains(category.getSelectedItem().toString())) {
+						// Here we populate our queue
+						productQueue.add(products);
+                                                addQueueToDb(productQueue);
+				
+						JOptionPane.showMessageDialog(null, "Product added successfully using Queue implementation");
+					} else if(list.contains(category.getSelectedItem().toString())) {
+						// Here we populate our list
+						productList.add(products);
+                                                addListToDb(productList);
+						JOptionPane.showMessageDialog(null, "Product added successfully using List implementation");
+					}
+					prodname.setText("");
+					qtyedit.setText("0");
+					
+				}catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, ex);
+				}
+        }
+        
+ //delete products
+ void DSADelete(){
+        try {
+					// HashMap initialization
+					// This will be us used to store added products and ready to be pushed to
+					// the database
+					HashMap<String, String> products = new HashMap<String, String>();
+					products.put("name", prodnames.getSelectedItem());
+					
+					if(stackList.contains(category.getSelectedItem().toString())) {
+						// Here we populate our stack
+						productStack.push(products);
+                                                deleteStackToDb(productStack);
+				
+						JOptionPane.showMessageDialog(null, "Product deleted successfully using Stack implementation");
+						
+					} else if(queueList.contains(category.getSelectedItem().toString())) {
+						// Here we populate our queue
+						productQueue.add(products);
+                                                deleteQueueToDb(productQueue);
+				
+						JOptionPane.showMessageDialog(null, "Product deleted successfully using Queue implementation");
+					} else if(list.contains(category.getSelectedItem().toString())) {
+						// Here we populate our list
+						productList.add(products);
+                                                deleteListToDb(productList);
+						JOptionPane.showMessageDialog(null, "Product deleted successfully using List implementation");
+					}
+					prodname.setText("");
+					qtyedit.setText("0");
+					
+				}catch(Exception ex) {
+					JOptionPane.showMessageDialog(null, ex);
+				}
+        }
+        
+        
     String fetchVendorID(String n) {
         String name = "";
         try {
@@ -2136,6 +2449,7 @@ addVendor();
         fetchAllVendor();
     }
     
+    
     void fetchAllVendor(){
         try {
             DefaultTableModel model = (DefaultTableModel) vendor.getModel();
@@ -2292,9 +2606,31 @@ addVendor();
         }
         }
         
+                void fetchSpecificProdByCat1(String text){
+                                try {
+            prodnames.removeAll();
+            
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select * from product where Category='" + text + "';");
+            
+            ResultSet result = st.executeQuery();
+            
+            while(result.next()){
+                prodnames.addItem(result.getString("Name"));
+            }
+
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+        
         void fetchCat(){
             try {
             choice3.removeAll();
+            category.removeAll();
             
             
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -2306,6 +2642,7 @@ addVendor();
             while(result.next()){
                 
                 choice3.addItem(result.getString("Category"));
+                category.addItem(result.getString("Category"));
             }
 
             
@@ -2352,11 +2689,11 @@ addVendor();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable bill;
+    private java.awt.Choice category;
     private javax.swing.JLabel cerr;
     private java.awt.Choice choice1;
     private java.awt.Choice choice2;
     private java.awt.Choice choice3;
-    private java.awt.Choice choice4;
     private javax.swing.JTextField costperitem;
     private javax.swing.JFormattedTextField date;
     private javax.swing.JLabel derr;
@@ -2389,6 +2726,8 @@ addVendor();
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2430,12 +2769,14 @@ addVendor();
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel mainerr;
     private java.awt.Panel panel1;
+    private javax.swing.JTextField prodname;
+    private java.awt.Choice prodnames;
     private javax.swing.JTable product;
     private javax.swing.JLabel qerr;
+    private javax.swing.JTextField qtyedit;
     private javax.swing.JTextField quantity;
     private javax.swing.JTextField searchProdText;
     private javax.swing.JTextField searchVendorText;
