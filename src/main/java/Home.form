@@ -844,6 +844,11 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="mainerr">
+                      <Properties>
+                        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="0" green="0" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
                     </Component>
                     <Component class="javax.swing.JLabel" name="derr">
                       <Properties>
@@ -1546,9 +1551,6 @@
                           <Color id="Hand Cursor"/>
                         </Property>
                       </Properties>
-                      <AccessibilityProperties>
-                        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="Add"/>
-                      </AccessibilityProperties>
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton18ActionPerformed"/>
                       </Events>
@@ -2037,7 +2039,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable4">
+                    <Component class="javax.swing.JTable" name="issuedgoods">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
@@ -2046,7 +2048,7 @@
                           <Table columnCount="3" rowCount="4">
                             <Column editable="true" title="Procduct Code" type="java.lang.String"/>
                             <Column editable="true" title="Product Name" type="java.lang.String"/>
-                            <Column editable="true" title="Quantity" type="java.lang.Integer"/>
+                            <Column editable="true" title="Quantity" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -2203,7 +2205,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable5">
+                    <Component class="javax.swing.JTable" name="viewissuedgoods">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                           <Font name="Segoe UI" size="14" style="0"/>
@@ -2216,7 +2218,7 @@
                             <Column editable="true" title="Date" type="java.lang.String"/>
                             <Column editable="true" title="Product" type="java.lang.String"/>
                             <Column editable="true" title="Vendor Code" type="java.lang.String"/>
-                            <Column editable="true" title="Bill" type="java.lang.Float"/>
+                            <Column editable="true" title="Bill" type="java.lang.String"/>
                           </Table>
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

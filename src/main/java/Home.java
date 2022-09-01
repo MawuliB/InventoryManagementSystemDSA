@@ -128,13 +128,13 @@ public class Home extends javax.swing.JFrame {
         jTextField12 = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        issuedgoods = new javax.swing.JTable();
         jTextField13 = new javax.swing.JTextField();
         jPanel22 = new javax.swing.JPanel();
         jButton19 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        viewissuedgoods = new javax.swing.JTable();
         jPanel23 = new javax.swing.JPanel();
         jButton20 = new javax.swing.JButton();
         jTextField14 = new javax.swing.JTextField();
@@ -501,6 +501,8 @@ public class Home extends javax.swing.JFrame {
         serr.setForeground(new java.awt.Color(255, 0, 0));
 
         cerr.setForeground(new java.awt.Color(255, 0, 0));
+
+        mainerr.setForeground(new java.awt.Color(255, 0, 0));
 
         derr.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -1005,8 +1007,6 @@ public class Home extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton18.getAccessibleContext().setAccessibleName("Add");
-
         jPanel18.setBackground(new java.awt.Color(0, 51, 51));
         jPanel18.setToolTipText("");
 
@@ -1299,8 +1299,8 @@ public class Home extends javax.swing.JFrame {
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        issuedgoods.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        issuedgoods.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1312,15 +1312,15 @@ public class Home extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTable4.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane4.setViewportView(jTable4);
+        issuedgoods.setGridColor(new java.awt.Color(255, 255, 255));
+        jScrollPane4.setViewportView(issuedgoods);
 
         jTextField13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(8, 20, 41), 2));
@@ -1390,9 +1390,9 @@ public class Home extends javax.swing.JFrame {
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable5.setForeground(new java.awt.Color(0, 51, 102));
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        viewissuedgoods.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        viewissuedgoods.setForeground(new java.awt.Color(0, 51, 102));
+        viewissuedgoods.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -1404,16 +1404,16 @@ public class Home extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Float.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jTable5.setFocusCycleRoot(true);
-        jTable5.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane5.setViewportView(jTable5);
+        viewissuedgoods.setFocusCycleRoot(true);
+        viewissuedgoods.setGridColor(new java.awt.Color(255, 255, 255));
+        jScrollPane5.setViewportView(viewissuedgoods);
 
         jPanel23.setBackground(new java.awt.Color(0, 153, 153));
         jPanel23.setToolTipText("");
@@ -1652,7 +1652,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton19ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        issuedGoods();
         jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -1661,7 +1661,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        viewIssuedGoods();
         jTabbedPane1.setSelectedIndex(5);
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -1875,6 +1875,82 @@ addVendor();
                 Bill = Integer.toString(result.getInt("Gross"));
                 
                 Object[] row = {VendorCode, Name, Bill};
+                model.addRow(row);
+            }
+            
+        } catch (ClassNotFoundException | SQLException | IllegalArgumentException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        String fetchProductID(String n) {
+        String name = "";
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select ProductCode from product where Name=?");
+            st.setString(1, n);
+            ResultSet result = st.executeQuery();
+            
+            if(result.next()){         
+                name = result.getString("ProductCode");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
+    }
+    
+    void issuedGoods() {
+         try {
+            DefaultTableModel model = (DefaultTableModel) issuedgoods .getModel();
+            model.setRowCount(0);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select * from goods");
+  
+            ResultSet result = st.executeQuery();
+            String ProductCode = "";
+            String Product = "";
+            String Qty = "";
+  
+            while(result.next()){
+                ProductCode = fetchProductID(result.getString("Product"));
+                Product = result.getString("Product");
+                Qty = Integer.toString(result.getInt("Quantity"));
+                
+                Object[] row = {ProductCode, Product, Qty};
+                model.addRow(row);
+            }
+            
+        } catch (ClassNotFoundException | SQLException | IllegalArgumentException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+        void viewIssuedGoods() {
+               try {
+            DefaultTableModel model = (DefaultTableModel) viewissuedgoods.getModel();
+            model.setRowCount(0);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select * from goods");
+  
+            ResultSet result = st.executeQuery();
+            String Date = "";
+            String Product = "";
+            String VendorCode = "";
+            String Bill = "";
+  
+            while(result.next()){
+                Date = result.getString("Date");;
+                VendorCode = fetchVendorID(result.getString("Vendor"));
+                Product = result.getString("Product");
+                Bill = Integer.toString(result.getInt("Gross"));
+                
+                Object[] row = {Date, Product, VendorCode, Bill};
                 model.addRow(row);
             }
             
@@ -2285,6 +2361,7 @@ addVendor();
     private javax.swing.JFormattedTextField date;
     private javax.swing.JLabel derr;
     private javax.swing.JTextField grossprice;
+    private javax.swing.JTable issuedgoods;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
@@ -2348,8 +2425,6 @@ addVendor();
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable4;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
@@ -2368,5 +2443,6 @@ addVendor();
     private javax.swing.JLabel serr;
     private javax.swing.JTextField totalprice;
     private javax.swing.JTable vendor;
+    private javax.swing.JTable viewissuedgoods;
     // End of variables declaration//GEN-END:variables
 }
