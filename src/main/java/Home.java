@@ -122,7 +122,7 @@ public class Home extends javax.swing.JFrame {
         product = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        bill = new javax.swing.JTable();
         jPanel20 = new javax.swing.JPanel();
         jButton17 = new javax.swing.JButton();
         jTextField12 = new javax.swing.JTextField();
@@ -1145,17 +1145,17 @@ public class Home extends javax.swing.JFrame {
         product.setForeground(new java.awt.Color(0, 0, 51));
         product.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Product Code", "Name", "Product Type"
+                "Product Code", "Name", "Product Type", "Status"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -1197,9 +1197,9 @@ public class Home extends javax.swing.JFrame {
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jTable3.setForeground(new java.awt.Color(0, 0, 102));
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        bill.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        bill.setForeground(new java.awt.Color(0, 0, 102));
+        bill.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -1218,8 +1218,13 @@ public class Home extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        jTable3.setGridColor(new java.awt.Color(255, 255, 255));
-        jScrollPane3.setViewportView(jTable3);
+        bill.setGridColor(new java.awt.Color(255, 255, 255));
+        bill.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                billComponentShown(evt);
+            }
+        });
+        jScrollPane3.setViewportView(bill);
 
         jPanel20.setBackground(new java.awt.Color(0, 153, 153));
         jPanel20.setToolTipText("");
@@ -1638,7 +1643,7 @@ public class Home extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField12ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+        fetchGoodsByBill();
         jTabbedPane1.setSelectedIndex(3);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -1699,34 +1704,7 @@ throw new RuntimeException(abc);
 } 
     
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
-                try {
-            String name = jTextField9.getText();
-            String phone = jTextField10.getText();
-            String address = jTextField11.getText();
-            String hashvalue = getMd5(name + phone + address);
-            
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
-            PreparedStatement st = con.prepareStatement("insert into Vendor values (?, ?, ?, ?)");
-            st.setString(1, hashvalue.substring(0, 10));
-            st.setString(2, name);         
-            st.setInt(3, Integer.parseInt(phone));
-            st.setString(4, address);
-            
-            st.executeUpdate();
-            
-            JOptionPane.showMessageDialog(this, "Insertion Successful");
-            fetchAllVendor();
-            jTextField9.setText("");         
-            jTextField10.setText("");
-            jTextField11.setText("");
-
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
-        }
+addVendor();
     }//GEN-LAST:event_jButton18ActionPerformed
 
     private void searchVendorTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchVendorTextKeyPressed
@@ -1847,15 +1825,163 @@ throw new RuntimeException(abc);
     }//GEN-LAST:event_costperitemKeyReleased
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        derr.setText("");
+        checkDate();
+        checkAll();
+        prodQtyCheck();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void billComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_billComponentShown
+       fetchGoodsByBill();
+    }//GEN-LAST:event_billComponentShown
+
+//    //functions
+   
+    String fetchVendorID(String n) {
+        String name = "";
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select VendorCode from vendor where Name=?");
+            st.setString(1, n);
+            ResultSet result = st.executeQuery();
+            
+            while(result.next()){
+                
+                name = result.getString("VendorCode");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return name;
+    }
+    
+    void fetchGoodsByBill() {
+         try {
+            DefaultTableModel model = (DefaultTableModel) bill.getModel();
+            model.setRowCount(0);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select * from goods");
+  
+            ResultSet result = st.executeQuery();
+            String VendorCode = "";
+            String Name = "";
+            String Bill = "";
+  
+            while(result.next()){
+                VendorCode = fetchVendorID(result.getString("Vendor"));
+                Name = result.getString("Name");
+                Bill = result.getString("Gross");
+                
+                Object[] row = {VendorCode, Name, Bill};
+                model.addRow(row);
+            }
+            
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //check if all values are filled before saving
+    void checkAll() {
+        mainerr.setText("");
+     if("".equals(costperitem.getText()) || "".equals(sellingprice.getText()) || "".equals(quantity.getText())){
+         mainerr.setText("Missing Info");
+     }else{
+         
+     }
+  }    
+    
+    //check product qty
+    void prodQtyCheck(){
+                    try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("select Quantity from product where Name=?");
+            st.setString(1, choice2.getSelectedItem());
+            ResultSet result = st.executeQuery();
+            int qty = 0;
+            while(result.next()){
+                
+                qty = Integer.parseInt(result.getString("Quantity"));
+            }
+            
+            if(qty < Integer.parseInt(quantity.getText())){
+                JOptionPane.showMessageDialog(this, "Stock Too Low");             
+            }else{
+                updateProdQuantity(quantity.getText());
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //add goods to the table
+    void addGoods(){
+                        try {
+            String Vendor = choice1.getSelectedItem();
+            String Category = choice3.getSelectedItem();
+            String Product = choice2.getSelectedItem();
+            String Quantity = quantity.getText();
+            String CostPrice = costperitem.getText();
+            String SellingPrice = sellingprice.getText();
+            String Gross = grossprice.getText();
+            String Date = date.getText();
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("insert into goods (`Vendor`, `Category`, `Product`, `Quantity`, `CostPrice`, `SellingPrice`, `Gross`, `Date`) values (?, ?, ?, ?, ?, ?, ?, ?)");
+            st.setString(1, Vendor);
+            st.setString(2, Category); 
+            st.setString(3, Product);
+            st.setInt(4, Integer.parseInt(Quantity));
+            st.setInt(5, Integer.parseInt(CostPrice));
+            st.setInt(6, Integer.parseInt(SellingPrice));
+            st.setInt(7, Integer.parseInt(Gross));
+            st.setString(8, Date);
+            
+            st.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Goods Add Successfully");
+            sellingprice.setText("");         
+            costperitem.setText("");
+            quantity.setText("");
+
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    //update quantity in product table
+    void updateProdQuantity(String prod){
+        try{
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("UPDATE product SET Quantity=(Quantity - ?) WHERE Name='" + choice2.getSelectedItem() + "';");
+            st.setInt(1, Integer.parseInt(prod));
+            st.executeUpdate();
+            addGoods();
+        }
+        catch (Exception ex){
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    void checkDate(){
+                derr.setText("");
         try{
         int day = Integer.parseInt(date.getText().substring(0, 2));
         int month = Integer.parseInt(date.getText().substring(3, 5));
         int year = Integer.parseInt(date.getText().substring(6, 10));
 
         if(day >= 0 && day <= 31 && month >= 0 && month <= 12 && year >= 0 && year <= 9999){
-        System.out.println(date.getText().substring(0, 2) + date.getText().substring(3, 5) + date.getText().substring(6, 10));
-        JOptionPane.showMessageDialog(null, Integer.parseInt(date.getText().substring(0, 2) + date.getText().substring(3, 5) + date.getText().substring(6, 10)));
+
 
     }else{
             derr.setText("Invalid Date");
@@ -1863,9 +1989,7 @@ throw new RuntimeException(abc);
         }
         catch(NumberFormatException e){
                 derr.setText("Enter Date/Invalid Date");}
-    }//GEN-LAST:event_jButton10ActionPerformed
-
-    //functions
+    }
     
     void calc (){
         int qty = 0;
@@ -1890,6 +2014,35 @@ throw new RuntimeException(abc);
         
         grossprice.setText(Integer.toString(qty * cpi));
         totalprice.setText(Integer.toString(qty * sp));
+    }
+    
+    void addVendor(){
+                        try {
+            String name = jTextField9.getText();
+            String phone = jTextField10.getText();
+            String address = jTextField11.getText();
+            String hashvalue = getMd5(name + phone + address);
+            
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/dsadb","root", "");
+            PreparedStatement st = con.prepareStatement("insert into Vendor values (?, ?, ?, ?)");
+            st.setString(1, hashvalue.substring(0, 10));
+            st.setString(2, name);         
+            st.setInt(3, Integer.parseInt(phone));
+            st.setString(4, address);
+            
+            st.executeUpdate();
+            
+            JOptionPane.showMessageDialog(this, "Insertion Successful");
+            fetchAllVendor();
+            jTextField9.setText("");         
+            jTextField10.setText("");
+            jTextField11.setText("");
+
+
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     void deleteVendor(){
@@ -2000,12 +2153,16 @@ throw new RuntimeException(abc);
             String ProductCode = "";
             String Name = "";
             String Category = "";
+            String Status = "";
   
             while(result.next()){
                 ProductCode = result.getString("ProductCode");
                 Name = result.getString("Name");
                 Category = result.getString("Category");
-                Object[] row = {ProductCode, Name, Category};
+                if(Integer.parseInt(result.getString("Quantity")) < 500){ Status = "Low"; }
+                else if(Integer.parseInt(result.getString("Quantity")) >= 500 && Integer.parseInt(result.getString("Quantity")) < 3000){ Status = "Medium"; }
+                else{Status = "High";}
+                Object[] row = {ProductCode, Name, Category, Status};
                 model.addRow(row);
             }
             
@@ -2119,6 +2276,7 @@ throw new RuntimeException(abc);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable bill;
     private javax.swing.JLabel cerr;
     private java.awt.Choice choice1;
     private java.awt.Choice choice2;
@@ -2191,7 +2349,6 @@ throw new RuntimeException(abc);
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField10;
