@@ -2115,21 +2115,21 @@ addVendor();
  //delete products
  void DSADelete(){
         try {
-					// HashMap initialization
-					// This will be us used to store added products and ready to be pushed to
-					// the database
-					HashMap<String, String> products = new HashMap<String, String>();
-					products.put("name", prodnames.getSelectedItem());
+	// HashMap initialization
+	// This will be us used to store added products and ready to be pushed to
+	// the database
+	HashMap<String, String> products = new HashMap<String, String>();
+	products.put("name", prodnames.getSelectedItem());
 					
-					if(stackList.contains(category.getSelectedItem().toString())) {
-						// Here we populate our stack
-						productStack.push(products);
-                                                deleteStackToDb(productStack);
+	if(stackList.contains(category.getSelectedItem().toString())) {
+	// Here we populate our stack
+	productStack.push(products);
+        deleteStackToDb(productStack);
 				
-						JOptionPane.showMessageDialog(null, "Product deleted successfully using Stack implementation");
+	JOptionPane.showMessageDialog(null, "Product deleted successfully using Stack implementation");
 						
-					} else if(queueList.contains(category.getSelectedItem().toString())) {
-						// Here we populate our queue
+	} else if(queueList.contains(category.getSelectedItem().toString())) {
+	// Here we populate our queue
 						productQueue.add(products);
                                                 deleteQueueToDb(productQueue);
 				
